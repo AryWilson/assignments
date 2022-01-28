@@ -6,7 +6,7 @@ password : password.c
 
 rpc : rpc.c
 	gcc rpc.c -o rpc
-
+ 
 clean :
 	rm snackbar password rpc 2> /dev/null
 
