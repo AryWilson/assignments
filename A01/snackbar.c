@@ -33,8 +33,9 @@ int main() {
 	int snackID;
 	printf("Welcome to Momo's Snack Bar\n");
 	printf("How much money do you have? ");
-	scanf("%f \n",&money);
-	printf("%f \n",money);
+	scanf("%f",&money);
+	printf("\n");
+	//printf("%f \n",money);
 	for(int i=0;i<4;i++){
 		printf("%i)\t",i);
 		printf("%s \t",theSnacks[i].name);
@@ -42,13 +43,17 @@ int main() {
 		printf("quantity: %i \n",theSnacks[i].quantity);
 	}	
 	printf("What snack would you like to buy? [0,1,2,3] ");
-	scanf("%d \n",&snackID);
-	printf("%d \n",snackID);
-	if(money<theSnacks[snackID].cost){
+	scanf("%d",&snackID);
+	printf("\n");
+	//printf("snackID= %d, money= %f \n",snackID,money);
+	//printf("theSnacks[snackID].cost = %f, theSnacks[snackID].quantity= %i \n",theSnacks[snackID].cost,theSnacks[snackID].quantity);
+	if(snackID>3||snackID<0){
+		printf("invalid snack ID \n");	
+	}else if(money<theSnacks[snackID].cost){
 		printf("You don't have enough money! \n");
-	} else if(theSnacks[snackID].quantity<=0){
+	}else if(theSnacks[snackID].quantity<=0){
 		printf("Sorry, we are out of %s \n",theSnacks[snackID].name);
-	} else {
+	}else {
 		printf("You have bought %s \n",theSnacks[snackID].name);
 	}
 	return 0;
