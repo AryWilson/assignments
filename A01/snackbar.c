@@ -1,18 +1,28 @@
-
+/* snackbar lists snacks, quantities, and prices and allows user input for simulated purchases
+* Ary Wilson
+* 1/28/22
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+/*
+* stuct that holds snack data 
+*/
 struct snack {
 	float cost;
 	int quantity;
 	char name[64];
 };
 
+/*
+* creates a structure array that represents the snackbar
+* displays finsihed snackbar and takes user input to simulate purchases
+*/
 int main() {
 	struct snack obj, sp, fff, fp;
 	struct snack theSnacks[4];
-	strcpy(obj.name,"onion-bannana juice");
+	strcpy(obj.name,"onion-banana juice");
 	strcpy(sp.name,"sea prunes         ");
 	strcpy(fff.name,"flaming fire flakes");
 	strcpy(fp.name,"fruit pies         ");

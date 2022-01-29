@@ -1,9 +1,19 @@
+/*plays rock paper scisscors with user and ai
+* Ary Wilson
+* 1/28
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
 
+/* 
+* performs a singl game of rock paper scissors
+* tracks user input and ai generated plays
+* takes a pointer input to keep track of score
+* prints associated data
+*/
 void doGame(int *userScore, int *aiScore){
 	char choice[64];
 	int aiC = rand()%3;
@@ -18,8 +28,6 @@ void doGame(int *userScore, int *aiScore){
 	}else {
 		strcpy(aiChoice, "scissors");
 	}
-	//int aiScore =0;
-	//int userScore =0;
 	printf("Which do you choose? rock, paper, or scissors? ");
 	scanf("%s",choice);
 	printf("\n");
@@ -35,11 +43,9 @@ void doGame(int *userScore, int *aiScore){
 		printf("It's a tie \n");
 	} else if(aiRock && userSciss){
 		*aiScore = *aiScore + 1;
-		//printf("aiScore = %i\n",*aiScore);		
 		printf("Rock bashes scissors \n");
 	} else if (aiRock && userPaper){
 		*userScore = *userScore +1;
-		//printf("aiScore = %i\n",*aiScore);
 		printf("Paper covers rock \n");
 	} else if (aiPaper && userSciss){
 		*userScore= *userScore+1;
@@ -61,7 +67,13 @@ void doGame(int *userScore, int *aiScore){
 	return;
 }
 
-
+/*
+* sets seed for random number generater
+* takes user input for the number of rounds
+* calls doGame() in a for loop based on user input
+* initializes int pointers to keep track of score across for loop
+* 
+*/
 int main() {
   	srand(time(0));
 	int rounds;
@@ -74,7 +86,7 @@ int main() {
 	userScore = malloc(sizeof(int));
 	aiScore = malloc(sizeof(int));
 	if(userScore == NULL||aiScore==NULL){
-		printf("error bad memory\n");
+		printf("error bad memory allocation\n");
 		exit(0);
 	}
 	*userScore =0;
