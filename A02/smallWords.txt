@@ -1,0 +1,11 @@
+10
+skeleton
+kudzu
+yarrow
+tarrot
+moss
+lichen
+chanterelle
+fungus
+cap
+mushroom
