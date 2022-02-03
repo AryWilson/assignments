@@ -46,11 +46,13 @@ int main() {
   for(int i =0;i<snackCount;i++){
     addNew(&(theSnacks[i]));
   }
+
+  printf("Welcome to the Dynamic Snackbar!\n");
   
 	for(int i=0;i<snackCount;i++){
     printf("%i)\t",i);
 		printf("%s \t",theSnacks[i].name);
-		printf("cost: %f \t",theSnacks[i].cost);
+		printf("cost: %.2f \t",theSnacks[i].cost);
 		printf("quantity: %i \n",theSnacks[i].quantity);
 	}	
   free(theSnacks);
