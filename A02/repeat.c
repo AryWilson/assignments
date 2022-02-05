@@ -11,14 +11,15 @@ int main() {
         printf("enter a count: ");
         scanf("%i",&count);
         printf("\n");
-        char *toPrint;
-        toPrint = malloc(sizeof(int)*32*count+1);
+        char *toPrint=NULL;
+        toPrint = malloc(sizeof(int)*32*count+1);//error
         if(toPrint ==NULL){
                 printf("Cannot allocate new string. Exiting...\n");
                 exit(1);
         }
+        toPrint[0]='\0';
         for(int i =0;i<count;i++){
-                strcat(toPrint,word);
+                strcat(toPrint,word);//error
         } 
         printf("your word is: %s\n",toPrint);
         free(toPrint);

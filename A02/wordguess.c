@@ -7,20 +7,21 @@
 int rDoGameUtil(char toGuess[32],char guessString[64],int correctGuesses, int turn);
 
 int doGame(char toGuess[32]){
+  //printf("%s",toGuess);
   int len = strlen(toGuess);
-  char *guessString = NULL;
-  guessString = malloc(sizeof(char)*strlen(toGuess)*2);
+  char *guessString=NULL;
+  guessString = malloc(sizeof(char)*len*2);
   if(guessString == NULL){
     printf("malloc error\n");
     exit(1);
   }
-  guessString[strlen(toGuess)*2]='\0';
   
   for(int i =0;i<len*2-2;i=i+2){
     guessString[i]='_';
     guessString[i+1] =' ';
   }
-  int turns = rDoGameUtil(toGuess, guessString, 0,1); 
+  guessString[len*2-2]='\0';
+  int turns = rDoGameUtil(toGuess, guessString, 0,1);
   free(guessString);
   guessString = NULL;
   return turns;
@@ -69,10 +70,9 @@ int main() {
   int rNum = (rand()%num) + 1;
   for(int i=0;i<rNum;i++){
     fgets(line,32,infile);
-  } 
+  }
+  fclose(infile); 
   printf("Welcome to Word Guess!\n");
-  //printf("%s",line);
-  
-  printf("You won in %i turns!\n",doGame(line)-1); 
+  printf("You won in %i turns!\n",doGame(line)-1);  
   return 0;
 }
