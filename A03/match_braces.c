@@ -2,7 +2,7 @@
 // match_braces.c 
 // CS223 - Spring 2022
 // Identify matched braces from a given file
-// Name:
+// Name: Ary Wilson
 //
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +22,21 @@ struct node {
 // Param top: the top node of the stack (NULL if empty)
 // Returns the new top of the stack
 struct node* push(char sym, int line, int col, struct node* top) {
-  
+  struct node* n = malloc(sizeof(struct node));
+  if (n == NULL) {
+    printf("ERROR: Out of space!\n");
+    exit(1);
+  }
+  n->sym = sym;
+  n->linenum = line;
+  n->colnum = col;
+  if(top==NULL){
+    n->next = NULL;
+    return n;
+  }else {
+    n->next = top;
+    return n;
+  }
   return NULL;
 }
 
@@ -30,12 +44,20 @@ struct node* push(char sym, int line, int col, struct node* top) {
 // Param top: the top node of the current stack (NULL if empty)
 // Returns the new top of the stack
 struct node* pop(struct node* top) {
-  return NULL;
+  struct node* ntop = top->next;
+  free(top);
+  top=NULL;
+  return ntop;
 }
 
 // Delete (e.g. free) all nodes in the given stack
 // Param top: the top node of the stack (NULL if empty)
 void clear(struct node* top) {
+  if(top == NULL){
+    return;
+  }
+  clear(pop(top));
+  return;
 }
 
 // Print all nodes in the given stack (from top to bottom)
@@ -61,7 +83,28 @@ int main(int argc, char* argv[]) {
     printf("Error: unable to open file %s\n", argv[1]);
     exit(1);
   }
-  
+  struct node* head = NULL;
+  int acol = 0;
+  int arow = 0;
+  char nextChar = ' ';
+  while(nextChar != NULL){
+    nextChar = fgetc(infile);
+    acol++;
+    if(nextChar == '\n'){
+      arow++;
+    }
+    if(nextChar == '{'){
+      push(nextChar,arow,acol,head);
+    } else if (nextChar == '}'){
+      struct node* temp = pop(head);
+      if(temp->sym == '{'){
+        printf("Found matching braces: (%d, %d) -> (%d, %d)\n",
+                temp->linenum,temp->colnum,arow,b->acol);
+      } else {
+        printf("Unmatched brace on Line %d and Column %d\n",arow,acol);
+      }
+    }
+   
 
   return 0;
 }
