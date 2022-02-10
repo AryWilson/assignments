@@ -88,22 +88,22 @@ int main(int argc, char* argv[]) {
   }
   
   struct node* head = NULL;
-  int acol = 1;
-  int arow = 0;
+  int acol = 0;
+  int arow = 1;
   char ch=' ';
   
   while(ch != EOF){
     ch = fgetc(infile);
     acol++;
     if(ch == '\n'){
-      acol=1;
+      acol=0;
       arow++;
     } else if(ch == '{'){
       //printf("ch = %c,arow = %d,acol = %d\n",ch,arow,acol);
       head = push(ch,arow,acol,head);
-      print(head);
+      //print(head);
     } else if (ch == '}'){
-      print(head);
+      //print(head);
       if(head==NULL){ 
         printf("Unmatched brace on Line %d and Column %d\n",arow,acol);
       } else if(head->sym == '{'){
@@ -115,6 +115,13 @@ int main(int argc, char* argv[]) {
       head = pop(head);
     }
   }
+
+  while(head != NULL){
+    printf("Unmatched brace on Line %d and Column %d\n",
+            head->linenum,head->colnum);
+    head = pop(head);
+  }  
+
   clear(head); 
   fclose(infile);
   return 0;
