@@ -37,13 +37,16 @@ struct node* push(char sym, int line, int col, struct node* top) {
     n->next = top;
     return n;
   }
-  return NULL;
+  return n;
 }
 
 // Pop the top node from a stack (implemented as a linked list) and frees it
 // Param top: the top node of the current stack (NULL if empty)
 // Returns the new top of the stack
 struct node* pop(struct node* top) {
+  if(top==NULL){
+    return NULL;  
+  }
   struct node* ntop = top->next;
   free(top);
   top=NULL;
@@ -83,28 +86,36 @@ int main(int argc, char* argv[]) {
     printf("Error: unable to open file %s\n", argv[1]);
     exit(1);
   }
+  
   struct node* head = NULL;
-  int acol = 0;
+  int acol = 1;
   int arow = 0;
-  char nextChar = ' ';
-  while(nextChar != NULL){
-    nextChar = fgetc(infile);
+  char ch=' ';
+  
+  while(ch != EOF){
+    ch = fgetc(infile);
     acol++;
-    if(nextChar == '\n'){
+    if(ch == '\n'){
+      acol=1;
       arow++;
-    }
-    if(nextChar == '{'){
-      push(nextChar,arow,acol,head);
-    } else if (nextChar == '}'){
-      struct node* temp = pop(head);
-      if(temp->sym == '{'){
+    } else if(ch == '{'){
+      //printf("ch = %c,arow = %d,acol = %d\n",ch,arow,acol);
+      head = push(ch,arow,acol,head);
+      print(head);
+    } else if (ch == '}'){
+      print(head);
+      if(head==NULL){ 
+        printf("Unmatched brace on Line %d and Column %d\n",arow,acol);
+      } else if(head->sym == '{'){
         printf("Found matching braces: (%d, %d) -> (%d, %d)\n",
-                temp->linenum,temp->colnum,arow,b->acol);
+                head->linenum,head->colnum,arow,acol);
       } else {
         printf("Unmatched brace on Line %d and Column %d\n",arow,acol);
       }
+      head = pop(head);
     }
-   
-
+  }
+  clear(head); 
+  fclose(infile);
   return 0;
 }
