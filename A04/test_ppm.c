@@ -21,12 +21,12 @@ int main() {
   width  = atoi(strtok(line, " \t"));
   height = atoi(strtok(line, " \t"));
   //printf("num0 = %i, num1 = %i, line = %s\n", width,height,line);
-  struct ppm_pixel* arr;
-  arr = malloc(sizeof(arr)*height*width + 1);
+  struct ppm_pixel* arr=NULL;
+  /*arr = malloc(sizeof(arr)*height*width + 1);
   if(arr == NULL){
     printf("malloc error\n");
     exit(0);
-  }
+  }*/
   arr = read_ppm("feep-ascii.ppm",width,height);
   
   printf("Testing file feep-ascii.ppm: %i x %i\n", width, height);// todo: call read_ppm
@@ -36,7 +36,7 @@ int main() {
     }
     printf("\n");
   }
-
+  fclose(infile);
   free(arr);
   arr = NULL;
   return 0;
