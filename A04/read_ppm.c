@@ -15,9 +15,10 @@ struct ppm_pixel* read_ppm(const char* filename, int w, int h) {
     fclose(infile);
     return NULL;
   }
-  char line[32];
-  for (int i=0;i<3;i++){
-    fgets(line,32,infile);
+  char line[64];
+  for (int i=0;i<4;i++){
+    fgets(line,64,infile);
+    //printf("%s \n",line);
   }
   struct ppm_pixel* arr;
   arr = malloc(sizeof(arr)*h*w + 1);
@@ -29,6 +30,7 @@ struct ppm_pixel* read_ppm(const char* filename, int w, int h) {
   unsigned char r;
   unsigned char g;
   unsigned char b;
+  //fgets(line,32,infile);  
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       fscanf(infile, " %hhu %hhu %hhu", &r, &g, &b);

@@ -12,8 +12,8 @@ int main(int argc, char** argv) {
   
   int height=0;
   int width=0;
-  char line[64];
-  
+  char *line;
+  line = malloc(sizeof(char)*64+1);
   FILE *infile;
   infile = fopen(argv[1],"r"); 
   if (infile == NULL) {
@@ -21,25 +21,36 @@ int main(int argc, char** argv) {
     //fclose(infile);
     exit(1);
   }
-  for(int i = 0; i < 10; i++){ 
-  fgets(line,64,infile);
-  printf("line = %s, strtok = %s \n",line,strtok(line," /t"));
+  for(int i = 0; i < 3; i++){ 
+    fgets(line,64,infile);
+    //printf("line = %s", line);
   }
-  //width  = atoi(strtok(line, " \t"));
-  //height = atoi(strtok(line, " \t"));
+  char w[32] = " ";
+  char h[32] = " ";
+  char *token = strtok(line," ");
+  strcpy(w,token);
+  token = strtok(NULL, " ");
+  strcpy(h,token);
+  //printf("%s %s \n",w,h);
+  width  = atoi(w);
+  height = atoi(h);
+  //printf("%i %i \n",width,height);
   struct ppm_pixel* arr=NULL;
   arr = read_ppm(argv[1],width,height);
   
+  
+  //printf("(%hhu, %hhu, %hhu)\t", arr[0].red,arr[0].green,arr[0].blue);  
   printf("Reading file %s: %i x %i\n",argv[1], width, height);
   
   for(int i = 0; i < height; i++){
     for(int j = 0; j < width; j++){
-      printf("(%hhu, %hhu, %hhu)\t", arr[i*width+j].red,arr[i*width + j].green,arr[i*width + j].blue);  
+      //printf("(%hhu, %hhu, %hhu)\t", arr[i*width+j].red,arr[i*width + j].green,arr[i*width + j].blue);  
       char sym = ' ';
       unsigned char r = arr[i*width+j].red;
       unsigned char g = arr[i*width+j].green;
       unsigned char b = arr[i*width+j].blue;
       int av = (r+g+b)/3;
+      //printf("%i ",av);
       if(av<=25){
         sym = '@';
       }else if (av<=50){
@@ -52,18 +63,20 @@ int main(int argc, char** argv) {
         sym ='o';
       }else if (av<=150){
         sym =';';
-      }else if (av=175){
+      }else if (av<=175){
         sym =':';
       }else if (av<=200){
         sym =',';
       }else if (av<=225){
         sym ='.';
+      }else if (av>225){
+        sym = ' ';
       }
     printf("%c",sym);
     }
   printf("\n");
   }
-  
+  free(line);
   fclose(infile);
   free(arr);
   arr = NULL;

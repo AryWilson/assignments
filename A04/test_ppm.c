@@ -16,8 +16,9 @@ int main() {
   }
   
   fgets(line,32,infile);
+  printf("line = %s\n", line);
   fgets(line,32,infile);  
-  //printf("line = %s\n", line);
+  printf("line = %s\n", line);
   width  = atoi(strtok(line, " \t"));
   height = atoi(strtok(line, " \t"));
   //printf("num0 = %i, num1 = %i, line = %s\n", width,height,line);
