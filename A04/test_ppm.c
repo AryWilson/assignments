@@ -28,7 +28,11 @@ int main() {
     printf("malloc error\n");
     exit(0);
   }*/
-  arr = read_ppm("feep-ascii.ppm",width,height);
+  int *w = malloc(sizeof(int));
+  int *h = malloc(sizeof(int));
+  *w = width;
+  *h = height;
+  arr = read_ppm("feep-ascii.ppm",w,h);
   
   printf("Testing file feep-ascii.ppm: %i x %i\n", width, height);// todo: call read_ppm
   for (int i = 0; i < height; i++) {
@@ -38,6 +42,10 @@ int main() {
     printf("\n");
   }
   fclose(infile);
+  free(h);
+  free(w);
+  h=NULL;
+  w=NULL;
   free(arr);
   arr = NULL;
   return 0;

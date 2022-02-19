@@ -18,25 +18,31 @@ int main(int argc, char** argv) {
   infile = fopen(argv[1],"r"); 
   if (infile == NULL) {
     printf("Error: unable to open file %s\n", argv[1]);
-    //fclose(infile);
+    free(line);
+    line = NULL;
     exit(1);
   }
   for(int i = 0; i < 3; i++){ 
     fgets(line,64,infile);
     //printf("line = %s", line);
   }
-  char w[32] = " ";
-  char h[32] = " ";
+  char w_str[32] = " ";
+  char h_str[32] = " ";
   char *token = strtok(line," ");
-  strcpy(w,token);
+  strcpy(w_str,token);
   token = strtok(NULL, " ");
-  strcpy(h,token);
+  strcpy(h_str,token);
   //printf("%s %s \n",w,h);
-  width  = atoi(w);
-  height = atoi(h);
+  width  = atoi(w_str);
+  height = atoi(h_str);
   //printf("%i %i \n",width,height);
   struct ppm_pixel* arr=NULL;
-  arr = read_ppm(argv[1],width,height);
+  
+  int *h = malloc(sizeof(int));
+  int *w = malloc(sizeof(int));
+  *h = height;
+  *w = width;
+  arr = read_ppm(argv[1],w,h);
   
   
   //printf("(%hhu, %hhu, %hhu)\t", arr[0].red,arr[0].green,arr[0].blue);  
@@ -76,6 +82,10 @@ int main(int argc, char** argv) {
     }
   printf("\n");
   }
+  free(h);
+  free(w);
+  h=NULL;
+  w=NULL;
   free(line);
   fclose(infile);
   free(arr);
