@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "read_ppm.c"
+#include <string.h>
+#include <stdlib.h>
 
 int main() {
   
@@ -14,7 +16,7 @@ int main() {
     fclose(infile);
     exit(1);
   }
-  
+  fgets(line,32,infile);  
   fgets(line,32,infile);
   printf("line = %s\n", line);
   fgets(line,32,infile);  
