@@ -7,7 +7,7 @@
 float* readvector(const char* filename, int *size) {
   // todo: implement me
   FILE* infile = NULL;
-  infile = fopen(filename, "rb");
+  infile = fopen(filename, "r");
   if (infile == NULL) {
     printf("Error: unable to open file %s\n", filename);
     exit(1);
