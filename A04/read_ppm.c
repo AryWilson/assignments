@@ -16,10 +16,24 @@ struct ppm_pixel* read_ppm(const char* filename, int *w, int *h) {
     return NULL;
   }
   char line[64];
-  for (int i=0;i<4;i++){
+
+  for (int i=0;i<2;i++){
     fgets(line,64,infile);
     //printf("%s \n",line);
   }
+  if(line[0] == '#'){
+    fgets(line,64,infile);
+  }
+  char w_str[32] = " ";
+  char h_str[32] = " ";
+  char *token = strtok(line," ");
+  strcpy(w_str,token);
+  token = strtok(NULL, " ");
+  strcpy(h_str,token);
+  *w  = atoi(w_str);
+  *h = atoi(h_str);
+  
+  fgets(line,64,infile);
   struct ppm_pixel* arr;
   arr = malloc(sizeof(arr)**h**w + 1);
   if(arr == NULL){
@@ -30,7 +44,6 @@ struct ppm_pixel* read_ppm(const char* filename, int *w, int *h) {
   unsigned char r;
   unsigned char g;
   unsigned char b;
-  //fgets(line,32,infile);  
   for (int i = 0; i < *h; i++) {
     for (int j = 0; j < *w; j++) {
       fscanf(infile, " %hhu %hhu %hhu", &r, &g, &b);
