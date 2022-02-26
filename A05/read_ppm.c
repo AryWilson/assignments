@@ -78,24 +78,32 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
   outfile = fopen (newname, "wb");
   printf("Writing file %s\n",newname);
 
-  /*char ch;
+  char ch;
   for(int i=0;i<4;i++){
     while(1){
       fread(&ch,sizeof(char),1,infile);
       fwrite(&ch,sizeof(char),1,outfile);  
       if(ch=='\n'){break;}
     }
-  }*/
-  char head[32];
+  }
+  /*char head[32];
 
   sprintf(head, "P3\n%i %i\n255\n", w,h);  
   fwrite(head,32,1,outfile);
-  
+  */
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       fwrite(&pxs[i*w + j],sizeof(struct ppm_pixel),1,outfile);
     }
-  } 
+  }
+
+ 
+  
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      printf("(%i %i %i)",pxs[i*w+j].red,pxs[i*w+j].green,pxs[i*w+j].blue);
+    }
+  }
   free(pxs);
   pxs = NULL;
   fclose(infile);
