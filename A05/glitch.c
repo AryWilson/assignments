@@ -27,6 +27,7 @@ int main(int argc, char** argv) {
       
     }
   }
+
   write_ppm(argv[1],arr,w,h);
   return 0;
 }
