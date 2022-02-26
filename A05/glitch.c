@@ -17,11 +17,11 @@ int main(int argc, char** argv) {
   
   
   
-  for (int i = 0; i < h; i++) {
+  /*for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       printf("(%i %i %i)",arr[i*w+j].red, arr[i*w+j].green, arr[i*w+j].blue);
     }
-  }
+  }*/
   printf("Reading file %s: %i x %i\n",argv[1], w, h);
   
   for (int i = 0; i < h; i++) {
@@ -37,11 +37,11 @@ int main(int argc, char** argv) {
   }
 
   
-  for (int i = 0; i < h; i++) {
+  /*for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       printf("(%i %i %i)",arr[i*w+j].red, arr[i*w+j].green, arr[i*w+j].blue);
     }
-  }
+  }*/
   write_ppm(argv[1],arr,w,h);
   return 0;
 }

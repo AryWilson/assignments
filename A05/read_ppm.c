@@ -99,11 +99,11 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
 
  
   
-  for (int i = 0; i < h; i++) {
+  /*for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       printf("(%i %i %i)",pxs[i*w+j].red,pxs[i*w+j].green,pxs[i*w+j].blue);
     }
-  }
+  }*/
   free(pxs);
   pxs = NULL;
   fclose(infile);
