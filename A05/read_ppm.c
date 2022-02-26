@@ -13,29 +13,27 @@ struct ppm_pixel* read_ppm(const char* filename, int *w, int *h) {
     fclose(infile);
     return NULL;
   }
+  char line[64];
 
-  //read up until dimentions
-  char line[64]; 
-  fread(line,3,1,infile);
-  fread(line,1,1,infile);
-  if(line[0]=='#'){
-    
-    while(line[0]!='\n'){
-    fread(line,1,1,infile);
-    }
-    fread(line,3,1,infile);
-    *w = line[0] -'0';
-    *h = line[2] -'0';
-  }else{
-    *w = line[0] - '0';
-    fread(line,2,1,infile);
-    *h = line[1] - '0';
+  //read up to dimentions
+  for (int i=0;i<2;i++){
+    fgets(line,64,infile);
+    //printf("%s \n",line);
   }
-
-  //read up until colors
-  fread(line,1,1,infile);
-  fread(line,4,1,infile);
-
+  if(line[0] == '#'){
+    fgets(line,64,infile);
+  }
+  char w_str[32] = " ";
+  char h_str[32] = " ";
+  char *token = strtok(line," ");
+  strcpy(w_str,token);
+  token = strtok(NULL, " ");
+  strcpy(h_str,token);
+  *w  = atoi(w_str);
+  *h = atoi(h_str);
+  //read up to colors
+  fgets(line,64,infile);
+  
   //make pixel array
   struct ppm_pixel* arr;
   arr = malloc(sizeof(arr)**h**w + 1);
@@ -89,6 +87,8 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
     }
   }*/
   char head[64];
+  printf("w = %i, h= %i\n",w,h);
+
   sprintf(head, "P3\n%i %i\n255\n", w,h);  
   fwrite(head,64,1,outfile);
   
