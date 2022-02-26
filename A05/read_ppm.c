@@ -86,10 +86,10 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
       if(ch=='\n'){break;}
     }
   }*/
-  char head[64];
+  char head[32];
 
   sprintf(head, "P3\n%i %i\n255\n", w,h);  
-  fwrite(head,64,1,outfile);
+  fwrite(head,32,1,outfile);
   
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
