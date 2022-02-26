@@ -36,7 +36,7 @@ struct ppm_pixel* read_ppm(const char* filename, int *w, int *h) {
   
   //make pixel array
   struct ppm_pixel* arr;
-  arr = malloc(sizeof(arr)**h**w + 1);
+  arr = malloc(sizeof(struct ppm_pixel)**h**w + 1);
   if(arr == NULL){
     printf("malloc error\n");
     fclose(infile);
@@ -96,7 +96,8 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
       fwrite(&pxs[i*w + j],sizeof(struct ppm_pixel),1,outfile);
     }
   } 
-
+  free(pxs);
+  pxs = NULL;
   fclose(infile);
   fclose(outfile);
   outfile=NULL;

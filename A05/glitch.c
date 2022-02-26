@@ -12,14 +12,15 @@ int main(int argc, char** argv) {
   }
    
   int h,w;
-  struct ppm_pixel *arr = read_ppm(argv[1],&w,&h); 
+  struct ppm_pixel *arr = NULL;
+  arr = read_ppm(argv[1],&w,&h); 
   printf("Reading file %s: %i x %i\n",argv[1], w, h);
   
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
-      arr[i*w+j].red = arr[i*w+j].red << (rand() % 4);
-      arr[i*w+j].green = arr[i*w+j].green << (rand() % 4);
-      arr[i*w+j].blue = arr[i*w+j].blue << (rand() % 4);
+      arr[i*w+j].red = arr[i*w+j].red << (rand() % 2);
+      arr[i*w+j].green = arr[i*w+j].green << (rand() % 2);
+      arr[i*w+j].blue = arr[i*w+j].blue << (rand() % 2);
       /*arr[i*w + j].red = arr[i*w + j].green;
       arr[i*w + j].green = arr[i*w+j].blue;
       arr[i*w + j].blue = arr[i*w+j].red;*/
