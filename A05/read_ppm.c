@@ -71,16 +71,13 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
   strcat(newname,"-glitch.ppm");
   outfile = fopen (newname, "wb");
   printf("Writing file %s\n",newname);
-  char head[64] = "P3\n";
-  sprintf(head, "%d %d\n255\n", w,h);  
+  char head[64];
+  sprintf(head, "P2\n%d %d\n255\n", w,h);  
   fwrite(head,64,1,outfile);
   
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
-      pxs[i*w+j].red = pxs[i*w+j].red << (rand() % 2);
-      pxs[i*w+j].green = pxs[i*w+j].green << (rand() % 2);
-      pxs[i*w+j].blue = pxs[i*w+j].blue << (rand() % 2);
-      //fwrite(&pxs[i*w + j],sizeof(struct ppm_pixel),1,outfile);
+      fwrite(&pxs[i*w + j],sizeof(struct ppm_pixel),1,outfile);
     }
   } 
 
