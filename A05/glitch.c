@@ -50,6 +50,10 @@ int main(int argc, char** argv) {
       printf("(%i %i %i)",arr[i*w+j].red, arr[i*w+j].green, arr[i*w+j].blue);
     }
   }*/
+
+  char newname[64];
+  strcpy(newname,argv[1]);
+  strcat(newname,"-glitch.ppm");//this shoudl be added in the glitch funtion
   write_ppm(argv[1],arr,w,h);
   return 0;
 }

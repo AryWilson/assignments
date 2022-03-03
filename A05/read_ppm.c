@@ -59,7 +59,8 @@ struct ppm_pixel* read_ppm(const char* filename, int *w, int *h) {
 // Feel free to change the function signature if you prefer to implement an 
 // array of arrays
 void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
-  FILE *infile;
+  FILE *outfile;
+  /*FILE *infile;
   infile = fopen(filename,"rb"); 
   if (infile == NULL) {
     printf("Error: unable to open file %s\n", filename);
@@ -78,7 +79,7 @@ void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
   outfile = fopen (newname, "wb");
   printf("Writing file %s\n",newname);
 
-  /*char ch;
+  char ch;
   for(int i=0;i<4;i++){
     while(1){
       fread(&ch,sizeof(char),1,infile);
