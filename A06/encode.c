@@ -50,14 +50,7 @@ int main(int argc, char** argv) {
   scanf("%s",phrase);
   printf("\nWriting file %s\n",newname);
   char *binPhrase = sToBin(phrase);
-  printf("%s",binPhrase); 
   unsigned char mask = 0b11111110;
-
-  printf("%hhu\n",pixels[1].colors[0]);  
-  printf("%hhu\n",pixels[1].colors[0]&mask);  
-  printf("%hhu\n",(pixels[1].colors[0]&mask) | (binPhrase[1]-'0'));  
-  printf("%hhu\n",(binPhrase[1]-'0'));  
-
 
   int idx =0;
   while(idx < strlen(binPhrase)) {

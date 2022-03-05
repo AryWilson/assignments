@@ -69,7 +69,7 @@ extern void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h)
   printf("Writing file %s\n",filename);
   char head[32];
 
-  sprintf(head, "P6\n%i %i\n255\n", w,h);  
+  sprintf(head, "P6\n#comment\n%i %i\n255\n", w,h);  
   fwrite(head,32,1,outfile);
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
