@@ -50,12 +50,12 @@ FILE *infile;
       fread(&arr[i**w + j],sizeof(struct ppm_pixel),1,infile);
     }
   } 
-  for (int i = 0; i < *h; i++) {
+  /*for (int i = 0; i < *h; i++) {
     for (int j = 0; j < *w; j++) {
       printf("(%hhu, %hhu, %hhu)\t", arr[i**w+j].red,arr[i**w + j].green,arr[i**w + j].blue);
     }
     printf("\n");
-  }
+  }*/
   //close file
   fclose(infile);
   return arr;
@@ -77,12 +77,12 @@ extern void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h)
     }
   } 
 
-  for (int i = 0; i < h; i++) {
+  /*for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       printf("(%hhu, %hhu, %hhu)\t", pxs[i*w+j].red,pxs[i*w + j].green,pxs[i*w + j].blue);
     }
     printf("\n");
-  }
+  }*/
 
   free(pxs);
   pxs = NULL;

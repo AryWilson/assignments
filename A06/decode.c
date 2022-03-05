@@ -18,13 +18,6 @@ int main(int argc, char** argv) {
   printf("Reading %s with width %i and height %i\n",argv[1],w,h);
   printf("Max number of characters in the image: %i\n", char_count);
    
- /* for (int i = 0; i < h; i++) {
-    for (int j = 0; j < w; j++) {
-      for(int col = 0;col<3;col++){
-        printf("%hhu",pixels[i*w+j].colors[col]);
-      }
-    }
-  }*/
   int count =0;
   unsigned int let=0;
   for(int i =0;i<h*w*3;i++){
