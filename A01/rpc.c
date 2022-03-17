@@ -81,18 +81,12 @@ int main() {
 	printf("How many rounds do you want to play? ");
 	scanf("%i",&rounds);
 	printf("\n");
-	int *userScore;
-	int *aiScore;
-	userScore = malloc(sizeof(int));
-	aiScore = malloc(sizeof(int));
-	if(userScore == NULL||aiScore==NULL){
-		printf("error bad memory allocation\n");
-		exit(0);
-	}
-	*userScore =0;
-	*aiScore =0;
+	int userScore;
+	int aiScore;
+	userScore =0;
+	aiScore =0;
 	for(int i = 0;i<rounds;i++){
-		doGame(userScore,aiScore);
+		doGame(&userScore,&aiScore);
 	}
 	return 0;
 }

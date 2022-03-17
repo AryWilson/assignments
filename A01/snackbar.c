@@ -20,32 +20,26 @@ struct snack {
 * displays finsihed snackbar and takes user input to simulate purchases
 */
 int main() {
-	struct snack obj, sp, fff, fp;
 	struct snack theSnacks[4];
-	strcpy(obj.name,"onion-banana juice");
-	strcpy(sp.name,"sea prunes         ");
-	strcpy(fff.name,"flaming fire flakes");
-	strcpy(fp.name,"fruit pies         ");
-	obj.cost = 2.90;
-	sp.cost = 8.50;
-	fff.cost = 4.50;
-	fp.cost = 1.00;
-	obj.quantity = 12;
-	sp.quantity = 8;
-	fff.quantity = 10;
-	fp.quantity = 0;
-	theSnacks[0] = obj;
-	theSnacks[1] = sp;
-	theSnacks[2] = fff;
-	theSnacks[3] = fp;
-	//printf("name: %s, cost: %.2f",obj.name,obj.cost);
-	float money;
+	strcpy(theSnacks[0].name,"onion-banana juice");
+	strcpy(theSnacks[1].name,"sea prunes         ");
+	strcpy(theSnacks[2].name,"flaming fire flakes");
+	strcpy(theSnacks[3].name,"fruit pies         ");
+	theSnacks[0].cost = 2.90;
+	theSnacks[1].cost = 8.50;
+	theSnacks[2].cost = 4.50;
+	theSnacks[3].cost = 1.00;
+	theSnacks[0].quantity = 12;
+	theSnacks[1].quantity = 8;
+	theSnacks[2].quantity = 10;
+	theSnacks[3].quantity = 0;
+	
+  float money;
 	int snackID;
 	printf("Welcome to Momo's Snack Bar\n");
 	printf("How much money do you have? ");
-	scanf("%f",&money);
+	scanf(" %f",&money);
 	printf("\n");
-	//printf("%f \n",money);
 	for(int i=0;i<4;i++){
 		printf("%i)\t",i);
 		printf("%s \t",theSnacks[i].name);
@@ -53,10 +47,8 @@ int main() {
 		printf("quantity: %i \n",theSnacks[i].quantity);
 	}	
 	printf("What snack would you like to buy? [0,1,2,3] ");
-	scanf("%d",&snackID);
+	scanf(" %d",&snackID);
 	printf("\n");
-	//printf("snackID= %d, money= %f \n",snackID,money);
-	//printf("theSnacks[snackID].cost = %f, theSnacks[snackID].quantity= %i \n",theSnacks[snackID].cost,theSnacks[snackID].quantity);
 	if(snackID>3||snackID<0){
 		printf("invalid snack ID \n");	
 	}else if(money<theSnacks[snackID].cost){
@@ -65,6 +57,8 @@ int main() {
 		printf("Sorry, we are out of %s \n",theSnacks[snackID].name);
 	}else {
 		printf("You have bought %s \n",theSnacks[snackID].name);
-	}
+	  money = money - theSnacks[snackID].cost;
+  }
+	printf("You have $%.2f left\n",money);
 	return 0;
 }
