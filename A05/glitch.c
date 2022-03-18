@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
   int h,w;
   struct ppm_pixel *arr = NULL;
   arr = read_ppm(argv[1],&w,&h); 
-  
+  if (arr == NULL){return 1;} 
   
   
   /*for (int i = 0; i < h; i++) {
