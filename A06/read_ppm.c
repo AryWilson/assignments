@@ -7,33 +7,33 @@
 // Feel free to change the function signature if you prefer to implement an 
 // array of arrays
 struct ppm_pixel* read_ppm(const char* filename, int* w, int* h) {
-FILE *infile;
+  FILE *infile;
   infile = fopen(filename,"rb"); 
   if (infile == NULL) {
     printf("Error: unable to open file %s\n", filename);
     fclose(infile);
     return NULL;
   }
-  char line[64];
 
+
+  char line[64];
   //read up to dimentions
   for (int i=0;i<2;i++){
-    fgets(line,64,infile);
-    //printf("%s \n",line);
+    fgets(line,sizeof(line),infile);
   }
   if(line[0] == '#'){
-    fgets(line,64,infile);
+    fgets(line,sizeof(line),infile);
   }
   char w_str[32] = " ";
   char h_str[32] = " ";
-  char *token = strtok(line," ");
+  char *token = strtok(line," \n\t");
   strcpy(w_str,token);
-  token = strtok(NULL, " ");
+  token = strtok(NULL, " \t\n");
   strcpy(h_str,token);
   *w  = atoi(w_str);
   *h = atoi(h_str);
   //read up to colors
-  fgets(line,64,infile);
+  fgets(line,sizeof(line),infile);
   
   //make pixel array
   struct ppm_pixel* arr;
@@ -50,7 +50,7 @@ FILE *infile;
       fread(&arr[i**w + j],sizeof(struct ppm_pixel),1,infile);
     }
   } 
-  /*for (int i = 0; i < *h; i++) {
+/**  for (int i = 0; i < *h; i++) {
     for (int j = 0; j < *w; j++) {
       printf("(%hhu, %hhu, %hhu)\t", arr[i**w+j].red,arr[i**w + j].green,arr[i**w + j].blue);
     }
@@ -64,12 +64,11 @@ FILE *infile;
 // TODO: Implement this function
 // Feel free to change the function signature if you prefer to implement an 
 // array of arrays
-extern void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
+void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h) {
   FILE *outfile = fopen(filename, "wb");
-  printf("Writing file %s\n",filename);
   char head[32];
 
-  sprintf(head, "P6\n#comment\n%i %i\n255\n", w,h);  
+  sprintf(head, "P6\n%i %i\n255\n", w,h);  
   fwrite(head,32,1,outfile);
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
@@ -77,12 +76,12 @@ extern void write_ppm(const char* filename, struct ppm_pixel* pxs, int w, int h)
     }
   } 
 
-  /*for (int i = 0; i < h; i++) {
+  for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       printf("(%hhu, %hhu, %hhu)\t", pxs[i*w+j].red,pxs[i*w + j].green,pxs[i*w + j].blue);
     }
     printf("\n");
-  }*/
+  }
 
   free(pxs);
   pxs = NULL;
