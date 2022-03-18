@@ -44,6 +44,7 @@ int main(int argc, char** argv) {
   int h,w;
   struct ppm_pixel *pixels = NULL;
   pixels = read_ppm(argv[1],&w,&h); 
+  if(pixels == NULL){return 1;}
   int char_count = (h*w*3/8);
   
   //output statements

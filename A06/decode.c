@@ -15,6 +15,7 @@ int main(int argc, char** argv) {
   int h,w;
   struct ppm_pixel *pixels = NULL;
   pixels = read_ppm(argv[1],&w,&h); 
+  if (pixels == NULL){return 1;}
   int char_count = (h*w*3/8);
   printf("Reading %s with width %i and height %i\n",argv[1],w,h);
   printf("Max number of characters in the image: %i\n", char_count);
