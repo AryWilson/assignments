@@ -57,8 +57,7 @@ int main(int argc, char** argv) {
   while ((i<strlen(argv[1]))&&(argv[1][i]!='.')){
     newname[i] = argv[1][i];
     i=i+1;
-  }
-  
+  }  
   newname[i]='\0';
   strcat(newname,"-glitch.ppm");
   write_ppm(newname,arr,w,h);
