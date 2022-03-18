@@ -58,6 +58,8 @@ int main(int argc, char** argv) {
     newname[i] = argv[1][i];
     i=i+1;
   }
+  
+  newname[i]='\0';
   strcat(newname,"-glitch.ppm");
   write_ppm(newname,arr,w,h);
   return 0;
