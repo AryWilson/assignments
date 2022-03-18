@@ -52,7 +52,12 @@ int main(int argc, char** argv) {
   }*/
 
   char newname[64];
-  strcpy(newname,argv[1]);
+  strcpy(newname," ");
+  int i = 0;
+  while ((i<strlen(argv[1]))&&(argv[1][i]!='.')){
+    newname[i] = argv[1][i];
+    i=i+1;
+  }
   strcat(newname,"-glitch.ppm");
   write_ppm(newname,arr,w,h);
   return 0;
