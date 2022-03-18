@@ -12,7 +12,6 @@ struct ppm_pixel* read_ppm(const char* filename, int *w, int *h) {
   infile = fopen(filename,"r"); 
   if (infile == NULL) {
     printf("Error: unable to open file %s\n", filename);
-    fclose(infile);
     return NULL;
   }
   char line[64];

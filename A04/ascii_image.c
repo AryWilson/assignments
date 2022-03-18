@@ -10,7 +10,12 @@ int main(int argc, char** argv) {
   }
   
   int h,w;
-  struct ppm_pixel *arr = read_ppm(argv[1],&w,&h);
+  struct ppm_pixel *arr;
+  arr = read_ppm(argv[1],&w,&h);
+  
+  if (arr == NULL){
+    return 1;
+  }
    
   printf("Reading file %s: %i x %i\n",argv[1], w, h);
   
