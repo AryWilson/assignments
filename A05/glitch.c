@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 
   char newname[64];
   strcpy(newname,argv[1]);
-  strcat(newname,"-glitch.ppm");//this shoudl be added in the glitch funtion
-  write_ppm(argv[1],arr,w,h);
+  strcat(newname,"-glitch.ppm");
+  write_ppm(newname,arr,w,h);
   return 0;
 }
