@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
   char *phrase;
   phrase = malloc(sizeof(char)*char_count);//MALLOC
   printf("Enter a phrase: ");
-  scanf("%s",phrase);
+  fgets(phrase,char_count,stdin);
   printf("\nWriting file %s\n",newname);
   char *binPhrase = sToBin(phrase);//MALLOC
   //add message to pixel array
@@ -65,9 +65,12 @@ int main(int argc, char** argv) {
       (pixels[(idx-idx%3)/3].colors[idx%3]&mask) | (binPhrase[idx]-'0');
     idx=idx+1;
   }
-  pixels[(idx-idx%3)/3].colors[idx%3]= 
-      (pixels[(idx-idx%3)/3].colors[idx%3]&mask) | '\0';
-
+  //add null character to the end
+  for(int a = 0;a<8;a++){
+    pixels[(idx-idx%3)/3].colors[idx%3]= 
+        (pixels[(idx-idx%3)/3].colors[idx%3]&mask) | '\0';
+    idx = idx+1;
+  }
   //write file with encoded message
   write_ppm(newname,pixels,w,h);
 
