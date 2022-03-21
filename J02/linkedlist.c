@@ -16,8 +16,7 @@ struct cake makeCake(const char* flavor, float cost) {
 }
 
 // todo: implement cheapestCake
-void cheapestCake(struct cake* head)
-{
+void cheapestCake(struct cake* head){
   char cheapest[16]=" ";
   strcpy(cheapest,head->flavor);
   float price = head->cost;
@@ -28,12 +27,9 @@ void cheapestCake(struct cake* head)
       strcpy(cheapest,head->flavor);
     }
     head = head->next;
-
   }
   printf("the cheapest cake is %s\n",cheapest);
-
-  
-
+  return;
 }
 
 
@@ -50,4 +46,5 @@ int main() {
   // draw stack and heap here
   cheapestCake(&cake1);
   // todo: call cheapestCake
+  return 0;
 }
