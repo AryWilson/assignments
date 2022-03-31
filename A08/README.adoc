@@ -1,11 +1,12 @@
 = Hardware specifications
 
 Where did your run your tests? A laptop, or goldengate?
-
+Laptop (shh goldengate)
 
 What are the performance specifications of the machine: number and speed of
 processors, size of RAM? (use `lscpu` and `free -m`)
-
+ssh: 64 CPU's, 1200 MHz. RAM is 83738 mebibyte or 99 gigabytes. 
+pc: 8 CPU's, 1991 MHz, RAM is 12389 mebibyte or 12 gigabyte
 
 = Allocations
 
