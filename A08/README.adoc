@@ -101,4 +101,15 @@ Total blocks: 176 Free: 124 Used: 52
 The current top of the heap is 0x7fddcf592bf5.
 Increased by 414 (0x19e) Kbyte
 Total blocks: 177 Free: 117 Used: 60
+(Internal unused) total: 193404 average: 3223.4 smallest: 401 largest: 3990
+(External unused) total: 193677 average: 1655.4 smallest: 6 largest: 3991
+8
+The current top of the heap is 0x7fddcf593ba5.
+Increased by 418 (0x1a2) Kbyte
+Total blocks: 177 Free: 129 Used: 48
+(Internal unused) total: 150237 average: 3129.9 smallest: 636 largest: 3987
+(External unused) total: 237641 average: 1842.2 smallest: 6 largest: 3986
+9
+The current top of the heap is 0x7fddcf593ba5.
+Increased by 418 (0x1a2) Kbyte
 ....
