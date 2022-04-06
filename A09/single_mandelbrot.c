@@ -31,6 +31,8 @@ int main(int argc, char* argv[]) {
 
   // todo: your work here
   
+  struct timeval tstart, tend;
+
   struct ppm_pixel *pxl = malloc(sizeof(struct ppm_pixel)*(size)*(size));
   if(pxl==NULL){
     printf("malloc error\n");
@@ -51,7 +53,7 @@ int main(int argc, char* argv[]) {
     green[i] = basegreen + rand() % 100 - 50;
     blue[i] = baseblue + rand() % 100 - 50;
   }
-  
+  gettimeofday(&tstart, NULL);
   //write color to image at location (row,col)
   for (int row = 0; row<size;row++){
     for (int col = 0; col<size;col++){
@@ -81,15 +83,16 @@ int main(int argc, char* argv[]) {
       }
     }
   }
-
+  gettimeofday(&tend, NULL);
+  double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
   
   // compute image
+  printf("Computed mandelbrot set (%dx%d) in %g seconds\n",size,size,timer);
 
-
-  char pngname[64];
-  sprintf(pngname,"mandelbrot-<%d>-<%d>.ppm",size,(int)time(0));
-  pngname[strlen(pngname)]='\0';
-  write_ppm(pngname,pxl,size,size);
+  char newfile[64];
+  sprintf(newfile,"mandelbrot-<%d>-<%d>.ppm",size,(int)time(0));
+  newfile[strlen(newfile)]='\0';
+  write_ppm(newfile,pxl,size,size);
   return 0;
 
 }

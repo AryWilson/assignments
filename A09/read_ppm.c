@@ -48,6 +48,7 @@ FILE *infile;
   } 
   //close file
   fclose(infile);
+  
   return arr;
 }
 
@@ -62,7 +63,7 @@ void write_ppm(const char* filename, struct ppm_pixel* pxl, int w, int h) {
       fwrite(&pxl[i*w + j],sizeof(struct ppm_pixel),1,outfile);
     }
   } 
-
+  printf("Writing file: %s\n",filename);
   free(pxl);
   pxl = NULL;
   fclose(outfile);
