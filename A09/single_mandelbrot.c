@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
 
 
   char pngname[64];
-  sprintf(pngname,"mandelbrot-<%d>-<%d>.png",size,(int)time(0));
+  sprintf(pngname,"mandelbrot-<%d>-<%d>.ppm",size,(int)time(0));
   pngname[strlen(pngname)]='\0';
   write_ppm(pngname,pxl,size,size);
   return 0;
