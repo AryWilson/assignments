@@ -4,6 +4,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include "read_ppm.h"
+#include <string.h>
 
 int main(int argc, char* argv[]) {
   int size = 480;
@@ -29,9 +30,66 @@ int main(int argc, char* argv[]) {
   printf("  Y range = [%.4f,%.4f]\n", ymin, ymax);
 
   // todo: your work here
+  
+  struct ppm_pixel *pxl = malloc(sizeof(struct ppm_pixel)*(size)*(size));
+  if(pxl==NULL){
+    printf("malloc error\n");
+    exit(1);
+  } 
   // generate pallet
   srand(time(0));
+  int color = 0;
+  int colors = 100;
+  int red[100];
+  int green[100];
+  int blue[100];
+  int basered = rand() % 255;
+  int basegreen = rand() % 255;
+  int baseblue = rand() % 255;
+  for (int i =0;i<colors;i++){
+    red[i] = basered + rand() % 100 - 50;
+    green[i] = basegreen + rand() % 100 - 50;
+    blue[i] = baseblue + rand() % 100 - 50;
+  }
+  
+  //write color to image at location (row,col)
+  for (int row = 0; row<size;row++){
+    for (int col = 0; col<size;col++){
+      int xfrac = row / size;
+      int yfrac = col / size;
+      int x0 = xmin + xfrac * (xmax - xmin);
+      int y0 = ymin + yfrac * (ymax - ymin);
+      int x = 0;
+      int y = 0;
+      int iter = 0;
+      int xtmp;
+      while (iter < maxIterations && x*x + y*y < 2*2){
+        xtmp = x*x - y*y + x0;
+        y = 2*x*y + y0;
+        x = xtmp;
+        iter++;
+      }
+      
+      if (iter < maxIterations){ // escaped
+        pxl[row*size+col].red = red[iter%colors];
+        pxl[row*size+col].green = green[iter%colors];
+        pxl[row*size+col].blue = blue[iter%colors];
+      }else{
+        pxl[row*size+col].red = 0;
+        pxl[row*size+col].green = 0;
+        pxl[row*size+col].blue = 0;
+      }
+    }
+  }
 
+  
   // compute image
+
+
+  char pngname[64];
+  sprintf(pngname,"mandelbrot-<%d>-<%d>.png",size,(int)time(0));
+  pngname[strlen(pngname)]='\0';
+  write_ppm(pngname,pxl,size,size);
+  return 0;
 
 }
