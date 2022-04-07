@@ -2,8 +2,12 @@
 
 Where did your run your tests? A laptop, or goldengate?
 
+goldengate
+
 What are the performance specifications of the machine: number and speed of
 processors, size of RAM? (use `lscpu` and `free -m`)
+ 
+ssh: 64 CPU's, 1200 MHz. RAM is 83738 mebibyte or 99 gigabytes. 
 
 = Single-process mandelbrot
 
