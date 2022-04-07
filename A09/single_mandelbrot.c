@@ -7,7 +7,7 @@
 #include <string.h>
 
 int main(int argc, char* argv[]) {
-  int size = 10;//480
+  int size = 480;
   float xmin = -2.0;
   float xmax = 0.47;
   float ymin = -1.12;
@@ -63,8 +63,8 @@ int main(int argc, char* argv[]) {
   //write color to image at location (row,col)
   for (int row = 0; row<size;row++){
     for (int col = 0; col<size;col++){
-      float xfrac = row / size;
-      float yfrac = col / size;
+      float xfrac = (float) row / size;
+      float yfrac = (float) col / size;
       float x = xmin + xfrac * (xmax - xmin);
       float y = ymin + yfrac * (ymax - ymin);
       float x0 = 0;
