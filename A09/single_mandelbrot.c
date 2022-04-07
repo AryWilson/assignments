@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
       float y = 0;
       int iter = 0;
       float xtmp;
-      while ((iter < maxIterations) &&( x*x + y*y < 2*2)){
+      while ((iter < maxIterations) &&( x*x + y*y < 4*4)){
         xtmp = x*x - y*y + x0;
         y = 2*x*y + y0;
         x = xtmp;
