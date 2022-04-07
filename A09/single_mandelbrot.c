@@ -56,8 +56,8 @@ int main(int argc, char* argv[]) {
   gettimeofday(&tstart, NULL);
 
   //write color to image at location (row,col)
-  for (int row = 0; row<size;row++){
-    for (int col = 0; col<size;col++){
+  for (int col = 0; col<size;col++){
+    for (int row = 0; row<size;row++){
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
