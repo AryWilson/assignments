@@ -65,10 +65,10 @@ int main(int argc, char* argv[]) {
     for (int col = 0; col<size;col++){
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
-      float x = xmin + xfrac * (xmax - xmin);
-      float y = ymin + yfrac * (ymax - ymin);
-      float x0 = 0;
-      float y0 = 0;
+      float x0 = xmin + xfrac * (xmax - xmin);
+      float y0 = ymin + yfrac * (ymax - ymin);
+      float x = 0;
+      float y = 0;
       int iter = 0;
       float xtmp;
       while ((iter < maxIterations) &&( x*x + y*y < 2*2)){
