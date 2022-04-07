@@ -39,7 +39,6 @@ int main(int argc, char* argv[]) {
     exit(1);
   } 
   // generate pallet
-  srand(time(0));
   int color = 0;
   int colors = 100;
   int red[100];
@@ -72,11 +71,11 @@ int main(int argc, char* argv[]) {
       float y = 0;
       int iter = 0;
       float xtmp;
-      while (iter < maxIterations && x*x + y*y < 2*2){
+      while ((iter < maxIterations) &&( x*x + y*y < 2*2)){
         xtmp = x*x - y*y + x0;
         y = 2*x*y + y0;
         x = xtmp;
-        iter++;
+        iter=iter+1;
       }
       
       if (iter < maxIterations){ // escaped
