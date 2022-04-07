@@ -74,13 +74,13 @@ int main(int argc, char* argv[]) {
       }
       
       if (iter < maxIterations){ // escaped
-        pxl[row*size+col].red = red[iter%colors];
-        pxl[row*size+col].green = green[iter%colors];
-        pxl[row*size+col].blue = blue[iter%colors];
+        pxl[col*size+row].red = red[iter%colors];
+        pxl[col*size+row].green = green[iter%colors];
+        pxl[col*size+row].blue = blue[iter%colors];
       }else{
-        pxl[row*size+col].red = 0;
-        pxl[row*size+col].green = 0;
-        pxl[row*size+col].blue = 0;
+        pxl[col*size+row].red = 0;
+        pxl[col*size+row].green = 0;
+        pxl[col*size+row].blue = 0;
       }
     }
   }
