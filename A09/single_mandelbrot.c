@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
   printf("  Y range = [%.4f,%.4f]\n", ymin, ymax);
 
   // todo: your work here
-  
+  srand(time(0)); 
   struct timeval tstart, tend;
 
   struct ppm_pixel *pxl = malloc(sizeof(struct ppm_pixel)*(size)*(size));
