@@ -56,8 +56,8 @@ int main(int argc, char* argv[]) {
   gettimeofday(&tstart, NULL);
 
   //write color to image at location (row,col)
-  for (int col = 0; col<size;col++){
-    for (int row = 0; row<size;row++){
+  for (int row = 0; row<size;row++){
+    for (int col = 0; col<size;col++){
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
@@ -74,13 +74,13 @@ int main(int argc, char* argv[]) {
       }
       
       if (iter < maxIterations){ // escaped
-        pxl[col*size+row].red = red[iter%colors];
-        pxl[col*size+row].green = green[iter%colors];
-        pxl[col*size+row].blue = blue[iter%colors];
+        pxl[row*size+col].red = red[iter%colors];
+        pxl[row*size+col].green = green[iter%colors];
+        pxl[row*size+col].blue = blue[iter%colors];
       }else{
-        pxl[col*size+row].red = 0;
-        pxl[col*size+row].green = 0;
-        pxl[col*size+row].blue = 0;
+        pxl[row*size+col].red = 0;
+        pxl[row*size+col].green = 0;
+        pxl[row*size+col].blue = 0;
       }
     }
   }
