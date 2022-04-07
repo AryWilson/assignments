@@ -1,0 +1,5 @@
+Generating mandelbrot with size 100x100
+  X range = [-2.0000,0.4700]
+  Y range = [-1.1200,1.1200]
+Computed mandelbrot set (100x100) in 0.025371 seconds
+Writing file: mandelbrot-<100>-<1649363742>.ppm
