@@ -45,26 +45,33 @@ int main(int argc, char* argv[]) {
   int red[100];
   int green[100];
   int blue[100];
-  int basered = rand() % 255;
+
+  for (int i =0;i<colors;i++){
+    red[i] = rand()%255;
+    green[i] = rand()%250;
+    blue[i] = rand()%250;
+  }
+  /*int basered = rand() % 255;
   int basegreen = rand() % 255;
   int baseblue = rand() % 255;
   for (int i =0;i<colors;i++){
     red[i] = basered + rand() % 100 - 50;
     green[i] = basegreen + rand() % 100 - 50;
     blue[i] = baseblue + rand() % 100 - 50;
-  }
+  }*/
   gettimeofday(&tstart, NULL);
+
   //write color to image at location (row,col)
   for (int row = 0; row<size;row++){
     for (int col = 0; col<size;col++){
-      int xfrac = row / size;
-      int yfrac = col / size;
-      int x0 = xmin + xfrac * (xmax - xmin);
-      int y0 = ymin + yfrac * (ymax - ymin);
-      int x = 0;
-      int y = 0;
+      float xfrac = row / size;
+      float yfrac = col / size;
+      float x0 = xmin + xfrac * (xmax - xmin);
+      float y0 = ymin + yfrac * (ymax - ymin);
+      float x = 0;
+      float y = 0;
       int iter = 0;
-      int xtmp;
+      float xtmp;
       while (iter < maxIterations && x*x + y*y < 2*2){
         xtmp = x*x - y*y + x0;
         y = 2*x*y + y0;
