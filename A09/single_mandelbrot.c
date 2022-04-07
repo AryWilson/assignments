@@ -65,22 +65,22 @@ int main(int argc, char* argv[]) {
       float x = 0;
       float y = 0;
       int iter = 0;
-      float ytmp;
+      float xtmp;
       while ((iter < maxIterations) &&( x*x + y*y < 2*2)){
-        ytmp = y*y - x*x + y0;
-        x = 2*y*x + x0;
-        y = ytmp;
+        xtmp = x*x - y*y + x0;
+        x = 2*x*y + y0;
+        x = xtmp;
         iter=iter+1;
       }
       
       if (iter < maxIterations){ // escaped
-        pxl[row*size+col].red = red[iter%colors];
-        pxl[row*size+col].green = green[iter%colors];
-        pxl[row*size+col].blue = blue[iter%colors];
+        pxl[col*size+row].red = red[iter%colors];
+        pxl[col*size+row].green = green[iter%colors];
+        pxl[col*size+row].blue = blue[iter%colors];
       }else{
-        pxl[row*size+col].red = 0;
-        pxl[row*size+col].green = 0;
-        pxl[row*size+col].blue = 0;
+        pxl[col*size+row].red = 0;
+        pxl[col*size+row].green = 0;
+        pxl[col*size+row].blue = 0;
       }
     }
   }
