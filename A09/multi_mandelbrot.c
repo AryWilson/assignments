@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
   write_ppm(newfile,pxl,size,size);
   
   
-  if (shmdt(&pxl) == -1) {
+  if (shmdt(pxl) == -1) {
     perror("Error: cannot detatch from shared memory\n");
     exit(1);
   }
