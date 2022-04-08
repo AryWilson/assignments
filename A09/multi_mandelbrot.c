@@ -107,6 +107,7 @@ int main(int argc, char* argv[]) {
     }else{
       makeMandel(size/2,xmin, xmax-width, ymin+height, ymax, pxl, red, green, blue);
     }
+    exit(0);
   }else{  
     pid = fork();
     if (pid ==0){
@@ -115,10 +116,12 @@ int main(int argc, char* argv[]) {
       makeMandel(size/2,xmin+width, xmax, ymin+height, ymax, pxl, red, green, blue);
     }
   }
+  if(pid==0){
+    exit(0);
+  }
   wait(&child_status);
   gettimeofday(&tend, NULL);
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
-  
   // compute image
   printf("Computed mandelbrot set (%dx%d) in %g seconds\n",size,size,timer);
 
