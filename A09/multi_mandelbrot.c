@@ -97,7 +97,9 @@ int main(int argc, char* argv[]) {
   float height = abs(ymax-ymin)/2;
   
   gettimeofday(&tstart, NULL);
-  pid_t pid;
+  
+  makeMandel(size/2,xmin, xmax-width, ymin, ymax-height, pxl, red, green, blue);
+  /*pid_t pid;
   pid = fork();
   int child_status;  
   if(pid == 0){
@@ -119,7 +121,7 @@ int main(int argc, char* argv[]) {
   if(pid==0){
     exit(0);
   }
-  wait(&child_status);
+  wait(&child_status);*/
   gettimeofday(&tend, NULL);
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
   // compute image
