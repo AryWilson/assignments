@@ -98,30 +98,29 @@ int main(int argc, char* argv[]) {
   
   gettimeofday(&tstart, NULL);
   
-  makeMandel(0,0,size/2,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
-  /*pid_t pid;
+  pid_t pid;
   pid = fork();
   int child_status;  
   if(pid == 0){
     pid = fork();
     if(pid == 0){
-      makeMandel(size/2,xmin, xmax-width, ymin, ymax-height, pxl, red, green, blue);
+      makeMandel(0,0,size/2,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
-      makeMandel(size/2,xmin, xmax-width, ymin+height, ymax, pxl, red, green, blue);
+      makeMandel(0,size/2,size/2,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
     exit(0);
   }else{  
     pid = fork();
     if (pid ==0){
-      makeMandel(size/2,xmin+width, xmax, ymin, ymax-height, pxl, red, green, blue);
+      makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
-      makeMandel(size/2,xmin+width, xmax, ymin+height, ymax, pxl, red, green, blue);
+      makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
   }
   if(pid==0){
     exit(0);
   }
-  wait(&child_status);*/
+  wait(&child_status);
   gettimeofday(&tend, NULL);
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
   // compute image
