@@ -68,6 +68,7 @@ int main(int argc, char* argv[]) {
     }
   }
   printf("Generating mandelbrot with size %dx%d\n", size, size);
+  printf("  Num processes = 4\n");
   printf("  X range = [%.4f,%.4f]\n", xmin, xmax);
   printf("  Y range = [%.4f,%.4f]\n", ymin, ymax);
 
@@ -107,32 +108,42 @@ int main(int argc, char* argv[]) {
   float width = abs(xmax-xmin)/2;
   float height = abs(ymax-ymin)/2;
   
-  gettimeofday(&tstart, NULL);
-  
   pid_t pid;
+  gettimeofday(&tstart, NULL);
   pid = fork();
   int child_status;  
   if(pid == 0){
     pid = fork();
     if(pid == 0){
+      printf("Launched child process: %d\n",getpid());
+      printf("%d) Sub-image block: cols (%d, %d) to rows (%d, %d)\n",getpid(),0,size/2,0,size/2);
       makeMandel(0,0,size/2,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
+      printf("Launched child process: %d\n",getpid());
+      printf("%d) Sub-image block: cols (%d, %d) to rows (%d, %d)\n",getpid(),0,size/2,size/2,size);
       makeMandel(0,size/2,size/2,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
+    printf("Child process complete: %d\n",getpid());
     exit(0);
   }else{  
     pid = fork();
     if (pid ==0){
+      printf("Launched child process: %d\n",getpid());
+      printf("%d) Sub-image block: cols (%d, %d) to rows (%d, %d)\n",getpid(),size/2,size,0,size/2);
       makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
+      printf("Parent process: %d\n",getpid());
+      printf("%d) Sub-image block: cols (%d, %d) to rows (%d, %d)\n",getpid(),size/2,size,size/2,size);
       makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
   }
   if(pid==0){
+    printf("Child process complete: %d\n",getpid());
     exit(0);
   }
   //wait(&child_status);
   while(wait(&child_status)>0){
+    //printf("Child process complete: %d",getpid());
   }
   gettimeofday(&tend, NULL);
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
@@ -154,6 +165,7 @@ int main(int argc, char* argv[]) {
     perror("Error: cannot remove shared memory\n");
     exit(1);
   }  
-  
+   
+  printf("parent process complete: %d\n",getpid());
   return 0;
 }
