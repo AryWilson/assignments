@@ -112,15 +112,17 @@ int main(int argc, char* argv[]) {
   }else{  
     pid = fork();
     if (pid ==0){
-      makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
-    }else{
       makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+    }else{
+      makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
   }
   if(pid==0){
     exit(0);
   }
-  wait(&child_status);
+  //wait(&child_status);
+  while(wait(&child_status)>0){
+  }
   gettimeofday(&tend, NULL);
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
   // compute image
