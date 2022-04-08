@@ -15,8 +15,8 @@
 #define MAX 1000
 
 
-struct ppm_pixel* makeMandel(int rstart, int cstart, int rend, int cend, int size, 
-float xmin, float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red, int *green, int *blue){
+void makeMandel(int rstart, int cstart, int rend, int cend, int size, float xmin,
+float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red, int *green, int *blue){
 
   //write color to image at location (row,col)
   for (int row = rstart; row<rend; row++){
@@ -47,7 +47,6 @@ float xmin, float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red,
       }
     }
   }
-  return pxl;
 }
 
 int main(int argc, char* argv[]) {
@@ -75,12 +74,23 @@ int main(int argc, char* argv[]) {
   // todo: your work here
   srand(time(0)); 
   struct timeval tstart, tend;
-
-  struct ppm_pixel *pxl = malloc(sizeof(struct ppm_pixel)*(size)*(size));
+  int shmid = shmget(IPC_PRIVATE, sizeof(struct ppm_pixel)*size*size, 0644 | IPC_CREAT);
+  if (shmid == -1) {
+    perror("Error: cannot initialize shared memory\n");
+    exit(1);
+  }
+  struct ppm_pixel *pxl = shmat(shmid, NULL, 0);
+  if (pxl == (void*) -1) {
+    perror("Error: cannot access shared memory\n");
+    exit(1);
+  } 
+  
+  /*struct ppm_pixel *pxl = malloc(sizeof(struct ppm_pixel)*(size)*(size));
   if(pxl==NULL){
     printf("malloc error\n");
     exit(1);
-  } 
+  }*/ 
+  
   // generate pallet
   int red[100];
   int green[100];
@@ -105,17 +115,17 @@ int main(int argc, char* argv[]) {
   if(pid == 0){
     pid = fork();
     if(pid == 0){
-      pxl = makeMandel(0,0,size/2,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      makeMandel(0,0,size/2,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
-      pxl =makeMandel(0,size/2,size/2,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      makeMandel(0,size/2,size/2,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
     exit(0);
   }else{  
     pid = fork();
     if (pid ==0){
-      pxl = makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
-      pxl = makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
   }
   if(pid==0){
@@ -133,5 +143,17 @@ int main(int argc, char* argv[]) {
   sprintf(newfile,"multi_mandelbrot-<%d>-<%d>.ppm",size,(int)time(0));
   newfile[strlen(newfile)]='\0';
   write_ppm(newfile,pxl,size,size);
+  
+  
+  if (shmdt(&pxl) == -1) {
+    perror("Error: cannot detatch from shared memory\n");
+    exit(1);
+  }
+
+  if (shmctl(shmid, IPC_RMID, 0) == -1) {
+    perror("Error: cannot remove shared memory\n");
+    exit(1);
+  }  
+  
   return 0;
 }

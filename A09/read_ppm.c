@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "read_ppm.h"
+#include <unistd.h>
+#include <assert.h>
+#include <sys/shm.h>
+#include <sys/ipc.h>
 
 struct ppm_pixel* read_ppm(const char* filename, int* w, int* h) {
 FILE *infile;
@@ -64,8 +68,8 @@ void write_ppm(const char* filename, struct ppm_pixel* pxl, int w, int h) {
     }
   } 
   printf("Writing file: %s\n",filename);
-  free(pxl);
-  pxl = NULL;
+  //free(pxl);
+  //pxl = NULL;
   fclose(outfile);
   outfile=NULL;
   return;
