@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
     if (pid ==0){
       makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
-      makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+     //makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
   }
   if(pid==0){
