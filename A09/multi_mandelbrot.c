@@ -15,7 +15,8 @@
 #define MAX 1000
 
 
-void makeMandel(int rstart, int cstart, int rend, int cend, int size, float xmin, float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red, int *green, int *blue){
+struct ppm_pixel* makeMandel(int rstart, int cstart, int rend, int cend, int size, 
+float xmin, float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red, int *green, int *blue){
 
   //write color to image at location (row,col)
   for (int row = rstart; row<rend; row++){
@@ -46,7 +47,7 @@ void makeMandel(int rstart, int cstart, int rend, int cend, int size, float xmin
       }
     }
   }
-
+  return pxl;
 }
 
 int main(int argc, char* argv[]) {
@@ -104,17 +105,17 @@ int main(int argc, char* argv[]) {
   if(pid == 0){
     pid = fork();
     if(pid == 0){
-      makeMandel(0,0,size/2,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      pxl = makeMandel(0,0,size/2,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
-      makeMandel(0,size/2,size/2,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      pxl =makeMandel(0,size/2,size/2,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
     exit(0);
   }else{  
     pid = fork();
     if (pid ==0){
-      makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      pxl = makeMandel(size/2,0,size,size/2,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }else{
-     //makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
+      pxl = makeMandel(size/2,size/2,size,size,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
     }
   }
   if(pid==0){
