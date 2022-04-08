@@ -18,8 +18,8 @@
 void makeMandel(int rstart, int cstart, int rend, int cend, int size, float xmin, float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red, int *green, int *blue){
 
   //write color to image at location (row,col)
-  for (int row = rstart; row<size;row++){
-    for (int col = cstart; col<size;col++){
+  for (int row = rstart; row<rend; row++){
+    for (int col = cstart; col<cend; col++){
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
