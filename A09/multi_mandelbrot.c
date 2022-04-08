@@ -9,6 +9,8 @@
 #include <sys/ipc.h>
 #include "read_ppm.h"
 #include <string.h>
+#include <sys/types.h>
+
 
 #define MAX 1000
 
@@ -95,12 +97,25 @@ int main(int argc, char* argv[]) {
   float height = (ymax-ymin)/2;
   
   gettimeofday(&tstart, NULL);
-  
-  makeMandel(size/2,xmin, xmax-width, ymin, ymax-height, pxl, red, green, blue);
-  makeMandel(size/2,xmin, xmax-width, ymin+height, ymax, pxl, red, green, blue);
-  makeMandel(size/2,xmin+width, xmax, ymin, ymax-height, pxl, red, green, blue);
-  makeMandel(size/2,xmin+width, xmax, ymin+height, ymax, pxl, red, green, blue);
-  
+  pid_t pid;
+  pid = fork();
+  int child_status;  
+  if(pid == 0){
+    pid = fork();
+    if(pid == 0){
+      makeMandel(size/2,xmin, xmax-width, ymin, ymax-height, pxl, red, green, blue);
+    }else{
+      makeMandel(size/2,xmin, xmax-width, ymin+height, ymax, pxl, red, green, blue);
+    }
+  }else{  
+    pid = fork();
+    if (pid ==0){
+      makeMandel(size/2,xmin+width, xmax, ymin, ymax-height, pxl, red, green, blue);
+    }else{
+      makeMandel(size/2,xmin+width, xmax, ymin+height, ymax, pxl, red, green, blue);
+    }
+  }
+  wait(&child_status);
   gettimeofday(&tend, NULL);
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
   
