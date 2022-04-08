@@ -93,8 +93,8 @@ int main(int argc, char* argv[]) {
     green[i] = basegreen + rand() % 100 - 50;
     blue[i] = baseblue + rand() % 100 - 50;
   }
-  float width = (xmax-xmin)/2;
-  float height = (ymax-ymin)/2;
+  float width = abs(xmax-xmin)/2;
+  float height = abs(ymax-ymin)/2;
   
   gettimeofday(&tstart, NULL);
   pid_t pid;
