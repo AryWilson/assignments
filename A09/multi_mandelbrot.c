@@ -15,11 +15,11 @@
 #define MAX 1000
 
 
-void makeMandel(int size, float xmin, float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red, int *green, int *blue){
+void makeMandel(int rstart, int cstart, int size, float xmin, float xmax, float ymin, float ymax, struct ppm_pixel *pxl, int *red, int *green, int *blue){
 
   //write color to image at location (row,col)
-  for (int row = 0; row<size;row++){
-    for (int col = 0; col<size;col++){
+  for (int row = rstart; row<size;row++){
+    for (int col = cstart; col<size;col++){
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
   
   gettimeofday(&tstart, NULL);
   
-  makeMandel(size/2,xmin, xmax-width, ymin, ymax-height, pxl, red, green, blue);
+  makeMandel(0,0,size, xmin, xmax, ymin, ymax, pxl, red, green, blue);
   /*pid_t pid;
   pid = fork();
   int child_status;  
