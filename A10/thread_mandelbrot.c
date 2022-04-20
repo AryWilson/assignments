@@ -8,15 +8,20 @@
 #include <sys/time.h>
 #include <string.h>
 #include <sys/types.h>
+#include <math.h>
 
 #define MAX 1000
 
 struct thread_data {
-  int rstart, rend;
-  int cstart, cend; 
+  int rstart;
+  int rend;
+  int cstart;
+  int cend; 
   int size; 
-  float xmin, xmax; 
-  float ymin, ymax;
+  float xmin; 
+  float xmax; 
+  float ymin; 
+  float ymax;
   struct ppm_pixel *pxl; 
   struct ppm_pixel *pal; 
 };
@@ -26,7 +31,7 @@ void *makeMandel(void* userdata){
   int rstart = data->rstart;
   int rend = data->rend;
   int cstart = data->cstart;
-  int cend = data->cstart;
+  int cend = data->cend;
   int size = data->size;
   float xmin = data->xmin;
   float xmax = data->xmax; 
@@ -35,7 +40,7 @@ void *makeMandel(void* userdata){
   struct ppm_pixel *pxl = data->pxl;
   struct ppm_pixel *pal = data->pal;
   printf("Thread %ld) sub-image block: cols (%d, %d) to rows (%d,%d)\n", 
-  pthread_self(),rstart,rend,cstart,cend);  
+  pthread_self(),cstart,cend,rstart,rend);  
 
   //write color to image at location (row,col)
   for (int row = rstart; row<rend; row++){
@@ -76,7 +81,6 @@ int main(int argc, char* argv[]) {
   float xmax = 0.47;
   float ymin = -1.12;
   float ymax = 1.12;
-  int maxIterations = 1000;
   int numProcesses = 4;
 
   int opt;
@@ -127,9 +131,9 @@ int main(int argc, char* argv[]) {
     data[i].pxl = pxl;
     data[i].pal = palette;
     int rstart = (size/2)*(i%2);
-    int cstart = (size/2)*((i+1)%2);
     data[i].rstart = rstart;
     data[i].rend = rstart + size/2;
+    int cstart = (size/2)*(floor(i/2));
     data[i].cstart = cstart;
     data[i].cend = cstart + size/2;
 
