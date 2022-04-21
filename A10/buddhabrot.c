@@ -24,7 +24,7 @@ struct thread_data {
   float ymin; 
   float ymax;
   struct ppm_pixel *pxl; 
-  struct ppm_pixel *pal; 
+
 };
 
 void *makeBuddha(void* userdata){
@@ -39,9 +39,9 @@ void *makeBuddha(void* userdata){
   float ymin = data->ymin;
   float ymax = data->ymax; 
   struct ppm_pixel *pxl = data->pxl;
-  struct ppm_pixel *pal = data->pal;
   printf("Thread %ld) sub-image block: cols (%d, %d) to rows (%d,%d)\n", 
   pthread_self(),cstart,cend,rstart,rend);  
+  int maxcount = 0;
 
   for (int row = rstart; row<rend; row++){
     for (int col = cstart; col<cend; col++){
@@ -162,15 +162,36 @@ int main(int argc, char* argv[]) {
   
   bool *mandel = malloc(sizeof(bool)*size*size);//is the point in the set?
   int *vcount = malloc(sizeof(int)*size*size);//how many times is the point visited
-  int maxcount = 0;
   
+  if(pxl==NULL|mandel==NULL|vcount==NULL){
+    printf("malloc error\n");
+    exit(1);
+  }  
 
 
   gettimeofday(&tstart, NULL);
+  pthread_t threads[4];
+  struct thread_data data[4];
+  for (int i = 0; i < 4; i++) {
+    data[i].size = size;
+    data[i].xmin = xmin;
+    data[i].xmax = xmax;
+    data[i].ymin = ymin;
+    data[i].ymax = ymax;
+    data[i].pxl = pxl;
+    int rstart = (size/2)*(i%2);
+    data[i].rstart = rstart;
+    data[i].rend = rstart + size/2;
+    int cstart = (size/2)*(floor(i/2));
+    data[i].cstart = cstart;
+    data[i].cend = cstart + size/2;
 
-  makeBuddha();
+    pthread_create(&threads[i], NULL, makeBuddha, (void*) &data[i]);
+  }
 
-  // compute image
+  for (int i = 0; i < 4; i++) {
+    pthread_join(threads[i], NULL);
+  }
   
   gettimeofday(&tend, NULL); 
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
