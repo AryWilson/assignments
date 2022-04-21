@@ -24,7 +24,9 @@ struct thread_data {
   float ymin; 
   float ymax;
   struct ppm_pixel *pxl; 
-
+  bool *mandel;
+  int *vcount;
+  
 };
 
 void *makeBuddha(void* userdata){
@@ -39,6 +41,8 @@ void *makeBuddha(void* userdata){
   float ymin = data->ymin;
   float ymax = data->ymax; 
   struct ppm_pixel *pxl = data->pxl;
+  bool *mandel = data->mandel;
+  int *vcount = data->vcount;
   printf("Thread %ld) sub-image block: cols (%d, %d) to rows (%d,%d)\n", 
   pthread_self(),cstart,cend,rstart,rend);  
   int maxcount = 0;
@@ -115,7 +119,7 @@ void *makeBuddha(void* userdata){
       int count = vcount[col*size+row];
       if(count > 0){
         value = log(count)/log(maxcount);
-        value = power(value,factor)
+        value = pow(value,factor);
       }
       pxl[col*size+row].red = value * 255;
       pxl[col*size+row].green = value * 255;
@@ -163,7 +167,7 @@ int main(int argc, char* argv[]) {
   bool *mandel = malloc(sizeof(bool)*size*size);//is the point in the set?
   int *vcount = malloc(sizeof(int)*size*size);//how many times is the point visited
   
-  if(pxl==NULL|mandel==NULL|vcount==NULL){
+  if((pxl==NULL)|(mandel==NULL)|(vcount==NULL)){
     printf("malloc error\n");
     exit(1);
   }  
@@ -179,6 +183,8 @@ int main(int argc, char* argv[]) {
     data[i].ymin = ymin;
     data[i].ymax = ymax;
     data[i].pxl = pxl;
+    data[i].mandel = mandel;
+    data[i].vcount = vcount;
     int rstart = (size/2)*(i%2);
     data[i].rstart = rstart;
     data[i].rend = rstart + size/2;
