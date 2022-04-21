@@ -97,8 +97,8 @@ void *makeBuddha(void* userdata){
         y = 2*x*y + y0;
         x = xtmp;
 
-        yrow = round(size * (y - ymin)/(ymax - ymax));
-        xcol = round(size * (x - xmin)/(xmax - xmax));
+        yrow = round(size * (y - ymin)/(ymax - ymin));
+        xcol = round(size * (x - xmin)/(xmax - xmin));
         if (yrow < 0 || yrow >= size) continue; // out of range
         if (xcol < 0 || xcol >= size) continue; // out of range
         
@@ -206,8 +206,14 @@ int main(int argc, char* argv[]) {
 
   //write to output file
   char newfile[64];
-  sprintf(newfile,"multi_mandelbrot-<%d>-<%d>.ppm",size,(int)time(0));
+  sprintf(newfile,"buddhabrot-<%d>-<%d>.ppm",size,(int)time(0));
   newfile[strlen(newfile)]='\0';
   write_ppm(newfile,pxl,size,size);       
   
+  free(pxl);
+  pxl = NULL;
+  free(mandel);
+  mandel = NULL;
+  free(vcount);
+  vcount = NULL;
 }
