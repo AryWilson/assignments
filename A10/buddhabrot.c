@@ -97,8 +97,8 @@ void *makeBuddha(void* userdata){
         y = 2*x*y + y0;
         x = xtmp;
 
-        yrow = round(size * (y - ymin)/(ymax - ymin));
-        xcol = round(size * (x - xmin)/(xmax - xmin));
+        yrow = round(size * (y - ymin)/(ymax - ymax));
+        xcol = round(size * (x - xmin)/(xmax - xmax));
         if (yrow < 0 || yrow >= size) continue; // out of range
         if (xcol < 0 || xcol >= size) continue; // out of range
         
