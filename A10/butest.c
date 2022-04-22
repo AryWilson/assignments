@@ -101,9 +101,9 @@ int main(){
         value = log(count)/log(maxcount);
         value = pow(value,factor);
       }
-      pxl[col*size+row].red = value * 255;
-      pxl[col*size+row].green = value * 255;
-      pxl[col*size+row].blue = value * 255;
+      pxl[row*size+col].red = value * 255;
+      pxl[row*size+col].green = value * 255;
+      pxl[row*size+col].blue = value * 255;
       
     }
   }
