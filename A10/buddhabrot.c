@@ -117,7 +117,7 @@ void *makeBuddha(void* userdata){
 
 
   pthread_barrier_wait(&barrier);
-  printf("maxcount=%lld\n",maxCount); 
+  //printf("maxcount=%lld\n",maxCount); 
   float gamma = 0.681;
   float factor = 1.0/gamma; 
   float value = 0;
@@ -129,9 +129,9 @@ void *makeBuddha(void* userdata){
         value = log(count)/log(maxCount);
         value = pow(value,factor);
       }
-      pxl[col*size+row].red = value * 255;
-      pxl[col*size+row].green = value * 255;
-      pxl[col*size+row].blue = value * 255;
+      pxl[row*size+col].red = value * 255;
+      pxl[row*size+col].green = value * 255;
+      pxl[row*size+col].blue = value * 255;
       
     }
   }
