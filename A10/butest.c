@@ -62,14 +62,14 @@ int main(){
       float x = 0;
       float y = 0;
       float xtmp;
-      //int yrow;
-      //int xcol;
+      int yrow;
+      int xcol;
       while ( x*x + y*y < 2*2){
         xtmp = x*x - y*y + x0;
         y = 2*x*y + y0;
         x = xtmp;
       
-       /* yrow = round(size * (y - ymin)/(ymax - ymin));
+        yrow = round(size * (y - ymin)/(ymax - ymin));
         xcol = round(size * (x - xmin)/(xmax - xmin));
         if (yrow < 0 || yrow >= size) {
           continue;
@@ -77,9 +77,9 @@ int main(){
         if (xcol < 0 || xcol >= size) {
           continue; 
         }// out of range
-       */ 
-        int temp = vcount[col*size+row]+1;
-        vcount[col*size+row] = temp;
+        
+        int temp = vcount[xcol*size+yrow]+1;
+        vcount[xcol*size+yrow] = temp;
         if(maxcount<temp){
           maxcount=temp;
         }
@@ -93,7 +93,6 @@ int main(){
   float factor = 1.0/gamma; 
   float value = 0;
   int count = 0;
-  printf("maxcount = %d\n",maxcount);
   for (int row = 0; row<size; row++){
     for (int col = 0; col<size; col++){
       count = vcount[col*size+row];
