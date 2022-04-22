@@ -12,6 +12,9 @@
 #include <math.h>
 
 #define MAX 1000
+static unsigned long long maxCount = 0;
+pthread_mutex_t mutex;
+pthread_barrier_t barrier;
 
 struct thread_data {
   int rstart;
@@ -45,7 +48,7 @@ void *makeBuddha(void* userdata){
   int *vcount = data->vcount;
   printf("Thread %ld) sub-image block: cols (%d, %d) to rows (%d,%d)\n", 
   pthread_self(),cstart,cend,rstart,rend);  
-  int maxcount = 0;
+  
 
   for (int row = rstart; row<rend; row++){
     for (int col = cstart; col<cend; col++){
@@ -78,7 +81,7 @@ void *makeBuddha(void* userdata){
     }
   }
   
-
+  unsigned long long lmaxcount = 0;
   for (int row = rstart; row<rend; row++){
     for (int col = cstart; col<cend; col++){
       if (mandel[col*size+row]){continue;}
@@ -104,12 +107,17 @@ void *makeBuddha(void* userdata){
         
         int temp = vcount[xcol*size+yrow]+1;
         vcount[xcol*size+yrow] = temp;
-        if(maxcount<temp){maxcount=temp;}
+        if(lmaxcount<temp){lmaxcount=temp;}
       }
     }
-  } 
+  }
+  pthread_mutex_lock(&mutex);
+  maxCount += lmaxcount;
+  pthread_mutex_unlock(&mutex);
 
 
+  pthread_barrier_wait(&barrier);
+  printf("maxcount=%lld\n",maxCount); 
   float gamma = 0.681;
   float factor = 1.0/gamma; 
   float value = 0;
@@ -118,7 +126,7 @@ void *makeBuddha(void* userdata){
       value = 0;
       int count = vcount[col*size+row];
       if(count > 0){
-        value = log(count)/log(maxcount);
+        value = log(count)/log(maxCount);
         value = pow(value,factor);
       }
       pxl[col*size+row].red = value * 255;
@@ -158,7 +166,7 @@ int main(int argc, char* argv[]) {
   printf("  X range = [%.4f,%.4f]\n", xmin, xmax);
   printf("  Y range = [%.4f,%.4f]\n", ymin, ymax);
 
-  // initialize 
+  //initialize 
 
   srand(time(0)); 
   struct timeval tstart, tend;
@@ -172,7 +180,7 @@ int main(int argc, char* argv[]) {
     exit(1);
   }  
 
-
+  
   gettimeofday(&tstart, NULL);
   pthread_t threads[4];
   struct thread_data data[4];
@@ -192,10 +200,12 @@ int main(int argc, char* argv[]) {
     data[i].cstart = cstart;
     data[i].cend = cstart + size/2;
 
+    pthread_barrier_init(&barrier,NULL,4);
     pthread_create(&threads[i], NULL, makeBuddha, (void*) &data[i]);
   }
 
   for (int i = 0; i < 4; i++) {
+    pthread_barrier_destroy(&barrier);
     pthread_join(threads[i], NULL);
   }
   
