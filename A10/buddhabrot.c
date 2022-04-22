@@ -215,7 +215,7 @@ int main(int argc, char* argv[]) {
 
 
   //write to output file
-  char newfile[64];
+  char newfile[64]="";
   sprintf(newfile,"buddhabrot-<%d>-<%d>.ppm",size,(int)time(0));
   newfile[strlen(newfile)]='\0';
   write_ppm(newfile,pxl,size,size);       

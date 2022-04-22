@@ -153,6 +153,7 @@ int main(int argc, char* argv[]) {
   sprintf(newfile,"multi_mandelbrot-<%d>-<%d>.ppm",size,(int)time(0));
   newfile[strlen(newfile)]='\0';
   write_ppm(newfile,pxl,size,size);
-
+  free(pxl);
+  pxl=NULL;
 
 }
