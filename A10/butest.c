@@ -14,7 +14,7 @@
 
 int main(){
   
-  int size = 480;
+  int size = 24;
   float xmin = -2.0;
   float xmax = 0.47;
   float ymin = -1.12;
@@ -40,8 +40,6 @@ int main(){
         y = 2*x*y + y0;
         x = xtmp;
         iter=iter+1;
-        
-        
       }
       
       if (iter < maxIterations){ // escaped
@@ -58,7 +56,6 @@ int main(){
   for (int row = 0; row<size; row++){
     for (int col = 0; col<size; col++){
       if (mandel[col*size+row]){continue;}
-
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
@@ -84,8 +81,15 @@ int main(){
       }
     }
   }
+  
 
-
+  for (int row = 0; row<size; row++){
+    for (int col = 0; col<size; col++){
+      printf("[%d] ",vcount[col*size+row]);  
+    }
+    printf("\n");
+  }
+  
   float gamma = 0.681;
   float factor = 1.0/gamma; 
   float value = 0;
