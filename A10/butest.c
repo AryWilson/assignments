@@ -14,7 +14,7 @@
 
 int main(){
   
-  int size = 24;
+  int size = 480;
   float xmin = -2.0;
   float xmax = 0.47;
   float ymin = -1.12;
@@ -44,18 +44,17 @@ int main(){
       
       if (iter < maxIterations){ // escaped
         mandel[col*size+row] = false;
-        
-      
       }else{
         mandel[col*size+row] = true;
       }
     }
   }
-  
 
   for (int row = 0; row<size; row++){
     for (int col = 0; col<size; col++){
-      if (mandel[col*size+row]){continue;}
+      if (mandel[col*size+row]){
+        continue;
+      }
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
@@ -63,37 +62,38 @@ int main(){
       float x = 0;
       float y = 0;
       float xtmp;
-      int yrow;
-      int xcol;
+      //int yrow;
+      //int xcol;
       while ( x*x + y*y < 2*2){
         xtmp = x*x - y*y + x0;
         y = 2*x*y + y0;
         x = xtmp;
       
-        yrow = round(size * (y - ymin)/(ymax - ymin));
+       /* yrow = round(size * (y - ymin)/(ymax - ymin));
         xcol = round(size * (x - xmin)/(xmax - xmin));
-        if (yrow < 0 || yrow >= size) continue; // out of range
-        if (xcol < 0 || xcol >= size) continue; // out of range
-        
+        if (yrow < 0 || yrow >= size) {
+          continue;
+        } // out of range
+        if (xcol < 0 || xcol >= size) {
+          continue; 
+        }// out of range
+       */ 
         int temp = vcount[col*size+row]+1;
         vcount[col*size+row] = temp;
-        if(maxcount<temp){maxcount=temp;}
+        if(maxcount<temp){
+          maxcount=temp;
+        }
       }
     }
   }
   
 
-  for (int row = 0; row<size; row++){
-    for (int col = 0; col<size; col++){
-      printf("[%d] ",vcount[col*size+row]);  
-    }
-    printf("\n");
-  }
   
   float gamma = 0.681;
   float factor = 1.0/gamma; 
   float value = 0;
   int count = 0;
+  printf("maxcount = %d\n",maxcount);
   for (int row = 0; row<size; row++){
     for (int col = 0; col<size; col++){
       count = vcount[col*size+row];
