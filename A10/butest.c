@@ -12,7 +12,7 @@
 #include <sys/types.h>
 #include <math.h>
 
-void main(){
+int main(){
   
   int size = 480;
   float xmin = -2.0;
@@ -20,7 +20,6 @@ void main(){
   float ymin = -1.12;
   float ymax = 1.12;
   int maxIterations = 1000;
-  int numProcesses = 4;
   
   struct ppm_pixel *pxl = malloc(sizeof(struct ppm_pixel)*size*size); 
   bool *mandel = malloc(size*size*sizeof(bool));
@@ -36,8 +35,6 @@ void main(){
       float y = 0;
       int iter = 0;
       float xtmp;
-      int yrow;
-      int xcol;
       while ((iter < maxIterations) &&( x*x + y*y < 2*2)){
         xtmp = x*x - y*y + x0;
         y = 2*x*y + y0;
@@ -92,11 +89,12 @@ void main(){
   float gamma = 0.681;
   float factor = 1.0/gamma; 
   float value = 0;
+  int count = 0;
   for (int row = 0; row<size; row++){
     for (int col = 0; col<size; col++){
-      value = 0;
-      int count = vcount[col*size+row];
+      count = vcount[col*size+row];
       if(count > 0){
+        
         value = log(count)/log(maxcount);
         value = pow(value,factor);
       }
@@ -108,7 +106,7 @@ void main(){
   }
  
   char newfile[64];
-  sprintf(newfile,"buddhabrot-<%d>-<%d>.ppm",size,(int)time(0));
+  sprintf(newfile,"butest-<%d>-<%d>.ppm",size,(int)time(0));
   newfile[strlen(newfile)]='\0';
   write_ppm(newfile,pxl,size,size);       
   
@@ -118,4 +116,5 @@ void main(){
   mandel = NULL;
   free(vcount);
   vcount = NULL;
+  return 0;
 } 
