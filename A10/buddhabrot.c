@@ -102,8 +102,8 @@ void *makeBuddha(void* userdata){
         if (yrow < 0 || yrow >= size) continue; // out of range
         if (xcol < 0 || xcol >= size) continue; // out of range
         
-        int temp = vcount[col*size+row]+1;
-        vcount[col*size+row] = temp;
+        int temp = vcount[xcol*size+yrow]+1;
+        vcount[xcol*size+yrow] = temp;
         if(maxcount<temp){maxcount=temp;}
       }
     }
