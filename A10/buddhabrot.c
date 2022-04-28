@@ -52,6 +52,7 @@ void *makeBuddha(void* userdata){
 
   for (int row = rstart; row<rend; row++){
     for (int col = cstart; col<cend; col++){
+      vcount[col*size+row]=0;
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
@@ -111,10 +112,11 @@ void *makeBuddha(void* userdata){
       }
     }
   }
-  pthread_mutex_lock(&mutex);
-  maxCount += lmaxcount;
-  pthread_mutex_unlock(&mutex);
-
+  if(maxCount<lmaxcount){
+    pthread_mutex_lock(&mutex);
+    maxCount=lmaxcount;
+    pthread_mutex_unlock(&mutex);
+  }
 
   pthread_barrier_wait(&barrier);
   //printf("maxcount=%lld\n",maxCount); 
@@ -170,12 +172,12 @@ int main(int argc, char* argv[]) {
 
   srand(time(0)); 
   struct timeval tstart, tend;
+
   struct ppm_pixel *pxl = malloc(sizeof(struct ppm_pixel)*(size)*(size));
-  
   bool *mandel = malloc(sizeof(bool)*size*size);//is the point in the set?
   int *vcount = malloc(sizeof(int)*size*size);//how many times is the point visited
   
-  if((pxl==NULL)|(mandel==NULL)|(vcount==NULL)){
+  if((pxl==NULL)||(mandel==NULL)||(vcount==NULL)){
     printf("malloc error\n");
     exit(1);
   }  
@@ -184,6 +186,8 @@ int main(int argc, char* argv[]) {
   gettimeofday(&tstart, NULL);
   pthread_t threads[4];
   struct thread_data data[4];
+  pthread_barrier_init(&barrier,NULL,4);
+  pthread_mutex_init(&mutex,NULL);
   for (int i = 0; i < 4; i++) {
     data[i].size = size;
     data[i].xmin = xmin;
@@ -200,14 +204,14 @@ int main(int argc, char* argv[]) {
     data[i].cstart = cstart;
     data[i].cend = cstart + size/2;
 
-    pthread_barrier_init(&barrier,NULL,4);
-    pthread_create(&threads[i], NULL, makeBuddha, (void*) &data[i]);
+    pthread_create(&threads[i], NULL, makeBuddha, &data[i]);
   }
 
   for (int i = 0; i < 4; i++) {
-    pthread_barrier_destroy(&barrier);
     pthread_join(threads[i], NULL);
   }
+  pthread_barrier_destroy(&barrier);
+  pthread_mutex_destroy(&mutex);
   
   gettimeofday(&tend, NULL); 
   double timer = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - tstart.tv_usec)/1.e6;
@@ -217,7 +221,7 @@ int main(int argc, char* argv[]) {
   //write to output file
   char newfile[64]="";
   sprintf(newfile,"buddhabrot-<%d>-<%d>.ppm",size,(int)time(0));
-  newfile[strlen(newfile)]='\0';
+  //newfile[strlen(newfile)]='\0';
   write_ppm(newfile,pxl,size,size);       
   
   free(pxl);
