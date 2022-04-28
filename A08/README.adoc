@@ -16,18 +16,19 @@ pc: 8 CPU's, 1991 MHz, RAM is 12389 mebibyte or 12 gigabyte
 How many bytes does mylloc_list allocate when the program ends? Explain why.
  
 1156 bytes, or 116 + 1040. The first call for memory only allocates 116 bytes,
-which is the requested size (100) plus the size of a chunk struct (16). Because the
-same size is asked for and then immediatly freed, the same chunk is allocated 
-for each call, so the memory allocated after reach interation of the loop is the
-same, (1156) after the first call. When that 2nd 100 bytes is asked for, the
-linked list is looked through (and the block that was jsut freed is reallocated).
+which is the requested size (100) plus the size of two chunk structs (16*2). 
+Because the same size is asked for and then immediatly freed, the same chunk is 
+allocated for each call, so the memory allocated after reach interation of the 
+loop is the same, (1156) after the first call. When that 2nd 100 bytes is asked 
+for, the linked list is looked through (and the block that was jsut freed is 
+reallocated).
 
 In `simple.c`, where does the increase in 1040 bytes come from?
 Why is the value 1040 bytes?
 
 After the first malloc in `reallocate.c`, printf is called which uses memory to
-store it's given string. By default it asks for 1040 bytes for this string, and 
-in consecutive malloc calls, the number of bytes don't increase beyond 1156,
+store it's given string. By default it asks for 1024 bytes for this string and 
+16 bytes for the chuck header. In consecutive malloc calls, the number of bytes don't increase beyond 1156,
 because the memory allocated for the string get's reused for the next printf 
 call.
 

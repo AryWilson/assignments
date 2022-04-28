@@ -52,14 +52,14 @@ void free(void *memory) {
 
 void fragstats(void* buffers[], int len) {
 
-  int tInUnu = 0;
-  int tExUnu = 0;
-  int uCount = 0;
-  int fCount = 0;
-  int inS=0;
-  int inL=0;
-  int exS=0;
-  int exL=0;
+  int tInUnu = 0;//total internal unused
+  int tExUnu = 0;//total external unused
+  int uCount = 0;//the total number of in-use chunks allocated
+  int fCount = 0;//the total number of free chunks allocated
+  int inS=0;//internal smallest unused chunk
+  int inL=0;//internal largest unused chunk
+  int exS=0;//external smallest unused chunk
+  int exL=0;//external smallest unused chunk
   
   for(int i = 0;i<len;i++){
     if(buffers[i]!=NULL){ 
@@ -78,13 +78,13 @@ void fragstats(void* buffers[], int len) {
       }
     }
   }
-  struct chunk *cnk = flist;
-  while(cnk->next!=NULL){
+  struct chunk *cnk = flist;//freelist
+  while(cnk!=NULL){
     int s = cnk->size;
     int inu = cnk->in_use;
     int unu = s-inu;
-    fCount+=1;
-    tExUnu+=s;
+    fCount+=1;//iterate number of freed chunk
+    tExUnu+=s;//add size of freed chunk to total amount of external unused mem
     if(exS==0){exS=unu;}
     
     if(unu>exL){
