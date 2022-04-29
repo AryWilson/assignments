@@ -52,7 +52,6 @@ void *makeBuddha(void* userdata){
 
   for (int row = rstart; row<rend; row++){
     for (int col = cstart; col<cend; col++){
-      vcount[col*size+row]=0;
       float xfrac = (float) row / size;
       float yfrac = (float) col / size;
       float x0 = xmin + xfrac * (xmax - xmin);
@@ -182,6 +181,7 @@ int main(int argc, char* argv[]) {
     exit(1);
   }  
 
+  memset(vcount,0,sizeof(int)*size*size);  
   
   gettimeofday(&tstart, NULL);
   pthread_t threads[4];
